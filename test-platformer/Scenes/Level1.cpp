@@ -8,7 +8,13 @@ Level1::Level1() {
 }
 
 void Level1::SceneStart() {
-	
+	// Set scene area
+	this->LevelWidth = 2000;
+	this->LevelHeight = 800;
+	this->Area = Graphics::CreateRect(this->LevelWidth, this->LevelHeight, 0, 0);
+
+	this->InitObjects();
+	this->InitTrees();
 }
 
 void Level1::HandleEvent(SDL_Event * Event) {
@@ -27,8 +33,25 @@ void Level1::Cleanup() {
 
 }
 
-void Level1::InitTree() {
-	this->GO_SensorTree = new BSP_Tree<Sensor<GameObject>>();
+void Level1::InitObjects() {
+	// Create terrain objects
+	TerrainList.push_back(new Terrain(-20.0, -20.0, 20.0, -20.0)); // Floor
+	TerrainList.push_back(new Terrain(-20.0, 20.0, -20.0, -20.0)); // Left wall
 
-	BSP_Tree<Sensor<GameObject>>::BuildTree(this->GO_SensorTree, this->TerrainSensors, Graphics::CreateRect(this->LevelWidth, this->LevelHeight, 0, 0), 16);
+	// Stuff 'em into a node list
+	for (Terrain* newTerrain : TerrainList) {
+		// Get the collision nodes for a terrain object
+		Terrain::NodeVec* newTerrainNodes = newTerrain->GetCollisionNodes();
+
+		// Then stuff that list into the master node list
+		TerrainNodes.insert(this->TerrainNodes.end(), newTerrainNodes->begin(), newTerrainNodes->end());
+	}
+}
+
+void Level1::InitTrees() {
+	// Create new terrain BSP tree
+	this->TerrainTree = new BSP_Tree<Terrain>();
+
+	// Build BSP Tree of terrain objects
+	BSP_Tree<Terrain>::BuildTree(this->TerrainTree, this->TerrainNodes, this->Area);
 }

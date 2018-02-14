@@ -13,9 +13,11 @@ public:
 	int LevelWidth;
 	int LevelHeight;
 
-	Terrain::Vec Terrains;
-	Sensor<GameObject>::Vec TerrainSensors;
-	BSP_Tree<Sensor<GameObject>>* GO_SensorTree;
+	Terrain::Vec		TerrainList;
+	Terrain::NodeVec	TerrainNodes;
+	BSP_Tree<Terrain>*	TerrainTree;
+
+	SDL_Rect* Area;
 
 	Level1();
 
@@ -25,7 +27,8 @@ public:
 	void Render();
 	void Cleanup();
 
-	void InitTree();
+	void InitObjects();
+	void InitTrees();
 };
 
 #endif
