@@ -19,6 +19,7 @@ public:
 	bool moveLeft;
 	bool moveRight;
 	// Player states
+	bool Rolling;
 	bool InAir;
 	bool InWater;
 	bool Super;

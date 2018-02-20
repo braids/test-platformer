@@ -154,13 +154,19 @@ double Player::Accel() {
 double Player::Decel() {
 	double decel = this->dec;
 
-	// If super, double deceleration
-	if (this->Super)
-		decel *= 2.0;
+	// If rolling, quarter deceleration
+	if (this->Rolling)
+		decel /= 4.0;
+	// If not rolling...
+	else {
+		// If super, double deceleration
+		if (this->Super)
+			decel *= 2.0;
 
-	// If in water, halve deceleration
-	if (this->InWater)
-		decel /= 2.0;
+		// If in water, halve deceleration
+		if (this->InWater)
+			decel /= 2.0;
+	}
 
 	return 0.0;
 }
@@ -168,8 +174,17 @@ double Player::Decel() {
 double Player::Friction() {
 	double friction = this->frc;
 
-	// If super, leave friction unchanged
-	if (!this->Super) {
+	// If super, leave friction unchanged unless...
+	if (this->Super) {
+		// If rolling and not in water, double friction
+		if (this->Rolling && !this->InWater)
+			friction *= 2.0;
+	}
+	else {
+		// If rolling, halve friction
+		if (this->Rolling)
+			friction /= 2.0;
+
 		// If in water, halve friction
 		if (this->InWater)
 			friction /= 2.0;
