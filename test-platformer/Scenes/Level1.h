@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <SDL2\SDL.h>
+#include "GameObjects\Player.h"
 #include "GameObjects\Terrain.h"
 #include "Physics\BSP_Tree.h"
 #include "Physics\Sensor.h"
@@ -12,6 +13,8 @@ class Level1 : public Scene {
 public:
 	int LevelWidth;
 	int LevelHeight;
+
+	Player* player;
 
 	Terrain::Vec		TerrainList;
 	Terrain::NodeVec	TerrainNodes;

@@ -34,9 +34,14 @@ void Level1::Cleanup() {
 }
 
 void Level1::InitObjects() {
+	// Create player
+	player = new Player();
+	player->GetPosition()->x = 10.0;
+	player->GetPosition()->y = 10.0;
+
 	// Create terrain objects
-	TerrainList.push_back(new Terrain(-20.0, -20.0, 20.0, -20.0)); // Floor
-	TerrainList.push_back(new Terrain(-20.0, 20.0, -20.0, -20.0)); // Left wall
+	TerrainList.push_back(new Terrain(-20.0, -20.0, 60.0, -20.0)); // Floor
+	TerrainList.push_back(new Terrain(-20.0, 60.0, -20.0, -20.0)); // Left wall
 
 	// Stuff 'em into a node list
 	for (Terrain* newTerrain : TerrainList) {

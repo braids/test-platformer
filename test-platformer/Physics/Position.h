@@ -8,7 +8,7 @@ public:
 	typedef std::vector<Position*> Vec;
 	typedef Vec::iterator VecIter;
 
-	double x, y, dx, dy, ang, dang;
+	double x, y, xspd, yspd, gspd, ang;
 
 	Position();
 	

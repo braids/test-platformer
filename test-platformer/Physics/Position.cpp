@@ -3,10 +3,10 @@
 Position::Position() {
 	this->x = 0.0;
 	this->y = 0.0;
-	this->dx = 0.0;
-	this->dy = 0.0;
+	this->xspd = 0.0;
+	this->yspd = 0.0;
+	this->gspd = 0.0;
 	this->ang = 0.0;
-	this->dang = 0.0;
 }
 
 double Position::XYCrossProduct(Position* pos1, Position* pos2) {
