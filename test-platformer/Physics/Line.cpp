@@ -27,6 +27,17 @@ void Line::SetPoints(double _x1, double _y1, double _x2, double _y2) {
 	this->End->y = _y2;
 }
 
+void Line::Translate(double _x, double _y) {
+	// Get line length
+	Position length = *this->LengthVec();
+	// Move begin point to position
+	this->Begin->x = _x;
+	this->Begin->y = _y;
+	// Move end point to position offset by line length
+	this->End->x = _x + length.x;
+	this->End->y = _y + length.y;
+}
+
 double Line::Intercept() {
 	return this->Begin->y - (this->Slope() * this->Begin->x);
 }

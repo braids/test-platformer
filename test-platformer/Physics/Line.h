@@ -18,6 +18,7 @@ public:
 	Line(double _x1, double _y1, double _x2, double _y2);
 	void InitPoints();
 	void SetPoints(double _x1, double _y1, double _x2, double _y2);
+	void Translate(double _x, double _y);
 	double Intercept();
 	double Length();
 	Position * LengthVec();

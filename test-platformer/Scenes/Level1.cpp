@@ -22,7 +22,7 @@ void Level1::HandleEvent(SDL_Event * Event) {
 }
 
 void Level1::Update(Uint32 timeStep) {
-
+	player->Update(timeStep);
 }
 
 void Level1::Render() {
@@ -59,4 +59,7 @@ void Level1::InitTrees() {
 
 	// Build BSP Tree of terrain objects
 	BSP_Tree<Terrain>::BuildTree(this->TerrainTree, this->TerrainNodes, this->Area);
+
+	// Load tree references into objects
+	this->player->SetTerrainTree(this->TerrainTree);
 }
