@@ -14,11 +14,15 @@ public:
 	const double frc = 0.046875;	// Friction
 	const double top = 6.0;			// Top speed
 	const double tops = 10.0;		// Super top speed
+	const double jmp = -6.5;		// Jump speed
+	const double jmpend = -4.0;		// Jump speed when letting go early
 	const double grv = 0.21875;		// Gravity
 
 	// Movement input states
-	bool moveLeft;		// Move left input is active
-	bool moveRight;		// Move right input is active
+	bool inputLeft;		// Move left input is active
+	bool inputRight;	// Move right input is active
+	bool inputDown;		// Down input is active
+	bool inputJump;		// Jump input is active
 	// Player states
 	bool Rolling;		// Player is rolling
 	bool InAir;			// Player is in air
@@ -82,12 +86,12 @@ public:
 
 	//// Sensor checks
 
-	bool A_Hit() { return this->valA < 36.0; }	// Sensor A detecting any collision
-	bool B_Hit() { return this->valB < 36.0; }	// Sensor B detecting any collision
-	bool C_Hit() { return this->valC < 36.0; }	// Sensor C detecting any collision
-	bool D_Hit() { return this->valD < 36.0; }	// Sensor D detecting any collision
-	bool L_Hit() { return this->valL < 10.0; }	// Sensor L detecting any collision
-	bool R_Hit() { return this->valR < 10.0; }	// Sensor R detecting any collision
+	bool A_Hit() { return this->valA < 36.0; }	// Sensor A detecting collision
+	bool B_Hit() { return this->valB < 36.0; }	// Sensor B detecting collision
+	bool C_Hit() { return this->valC < 36.0; }	// Sensor C detecting collision
+	bool D_Hit() { return this->valD < 36.0; }	// Sensor D detecting collision
+	bool L_Hit() { return this->valL < 10.0; }	// Sensor L detecting collision
+	bool R_Hit() { return this->valR < 10.0; }	// Sensor R detecting collision
 };
 
 

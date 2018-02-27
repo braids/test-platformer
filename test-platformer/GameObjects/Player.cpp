@@ -41,13 +41,19 @@ void Player::InitSensorVals() {
 
 // Check active terrain tree for terrain that could collide with player.
 void Player::CheckTerrainCollisions(BSP_Tree<Terrain>* terrainTree) {
+	// Init sensor vals
+	this->InitSensorVals();
+
 	// Init the list of terrain collisions
 	Terrain::Vec terrainCollisions;
+
 	// Get all terrain on or near the collision sensor
 	terrainTree->FindItems(&terrainCollisions, CollisionSensor);
+	
 	// Bail if there's no terrain nearby
 	if (terrainCollisions.size() == 0)
 		return;
+	
 	// Remove duplicates
 	std::set<Terrain*> s(terrainCollisions.begin(), terrainCollisions.end());
 	terrainCollisions.assign(s.begin(), s.end());
@@ -68,9 +74,11 @@ void Player::TerrainSensorValue(Line* line, double* lineVal, Terrain::Vec collis
 		if (Line::HasIntersection(line, &terrain->CollisionLine)) {
 			// Get position of intersection
 			Position pos = *Line::IntersectAt(line, &terrain->CollisionLine);
+			
 			// Get distance from line sensor start to intersection
 			Line intersectLine(line->Begin->x, line->Begin->y, pos.x, pos.y);
 			double length = intersectLine.Length();
+			
 			// If distance is shorter than current sensor value, update sensor value
 			if (length < *lineVal)
 				*lineVal = length;
@@ -90,12 +98,9 @@ void Player::Update(Uint32 ticks) {
 	// Move position
 	this->UpdatePosition();
 
-	// Init sensor vals
-	this->InitSensorVals();
-	
 	// Check for terrain collisions
 	this->CheckTerrainCollisions(this->TerrainTree);
-	
+
 	// Correct position
 	this->CorrectPosition();
 }
@@ -105,20 +110,32 @@ void Player::Update(Uint32 ticks) {
 
 // Update player acceleration based on input events.
 void Player::UpdateMotion() {
-	//// Horizontal movement update
+	/// Horizontal movement update ///
 	// If input to move left and speed is less than top, subtract speed from xspeed
-	if (this->moveLeft && this->mPosition.xspd > -this->TopSpeed())
+	if (this->inputLeft && this->mPosition.xspd > -this->TopSpeed())
 		this->mPosition.xspd -= signbit(this->mPosition.xspd) ? this->Accel() : this->Decel();
 	
 	// If input to move right and speed is less than top, add speed to xspeed
-	if (this->moveRight && this->mPosition.xspd < this->TopSpeed())
+	if (this->inputRight && this->mPosition.xspd < this->TopSpeed())
 		this->mPosition.xspd += signbit(this->mPosition.xspd) ? this->Accel() : this->Decel();
 
 	// If not moving, reduce xspeed by friction times the sign of xspeed (that's what this is) and 0 if slow enough
-	if (!this->moveLeft && !this->moveRight)
+	if (!this->inputLeft && !this->inputRight)
 		this->mPosition.xspd -= std::min(abs(this->mPosition.xspd), this->Friction()) * signbit(this->mPosition.xspd);
+	
+	/// Air Drag ///
+	// If in the air and moving upward AND moving fast enough horizontally, add drag
+	if (this->InAir && this->mPosition.yspd < 0 && this->mPosition.yspd > -4)
+		this->mPosition.xspd -= (double)((int)(this->mPosition.xspd * 8) / 256);
 
-	//// Vertical motion update
+	/// Gravity ///
+	// Add gravity to yspeed if in air
+	if (this->InAir)
+		this->mPosition.yspd += this->grv;
+
+	// Restrict top yspeed
+	if (this->mPosition.yspd > 16)
+		this->mPosition.yspd = 16;
 
 }
 #pragma endregion MotionUpdate
