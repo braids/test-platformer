@@ -24,13 +24,14 @@ public:
 	bool inputDown;		// Down input is active
 	bool inputJump;		// Jump input is active
 	// Player states
+	bool Jumping;		// Player is jumping
 	bool Rolling;		// Player is rolling
 	bool InAir;			// Player is in air
 	bool InWater;		// Player is underwater
 	bool Super;			// Player is super player
 	bool SuperShoes;	// Player has super shoes on
 	// Terrain/Collision
-	BSP_Tree<Terrain>* TerrainTree;	// Pointer to current terrain tree
+	Terrain::Tree* TerrainTree;	// Pointer to current terrain tree
 	SDL_Rect* CollisionSensor;		// Collision sensor rect
 	SDL_Rect* BodyCollision;		// Body collision rect
 	// Sensors
@@ -45,16 +46,25 @@ public:
 	//// Initialization
 	
 	// Set active terrain tree.
-	void SetTerrainTree(BSP_Tree<Terrain>* terrainTree) { this->TerrainTree = terrainTree; }
+	void SetTerrainTree(BSP_Tree<Terrain*>* terrainTree) { this->TerrainTree = terrainTree; }
 	// Initialize sensor values to defaults.
 	void InitSensorVals();
+
+	//// Input
+	void ClearInput();
+	void UpdateInput();
+	void MovementCheck();
+	void JumpingCheck();
+
 
 	//// Terrain Checks
 	
 	// Check active terrain tree for terrain that could collide with player.
-	void CheckTerrainCollisions(BSP_Tree<Terrain>* terrainTree);
+	void CheckTerrainCollisions(BSP_Tree<Terrain*>* terrainTree);
 	// Get terrain collision sensor values.
 	void TerrainSensorValue(Line* line, double* lineVal, Terrain::Vec collisions);
+
+	void UpdateAirState();
 
 	//// Updates
 
@@ -62,13 +72,13 @@ public:
 	
 	// Motion Update
 	
-	void UpdateMotion();	// Update player acceleration based on input events.
+	void UpdateMotion(Uint32 ticks);	// Update player acceleration based on input events.
 
 	// Position Update
 	
-	void UpdatePosition();	// Move position of player using acceleration.
-	void MoveXPos();		// Move X position of player using acceleration.
-	void MoveYPos();		// Move Y position of player using acceleration.
+	void UpdatePosition(Uint32 ticks);	// Move position of player using acceleration.
+	void MoveXPos(Uint32 ticks);		// Move X position of player using acceleration.
+	void MoveYPos(Uint32 ticks);		// Move Y position of player using acceleration.
 
 	void TranslateCollision();	// Move collision rects relative to position.
 	void TranslateSensors();	// Move sensors relative to position.

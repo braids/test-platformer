@@ -52,7 +52,7 @@ bool SceneManager::Init() {
 		scene->Init(this);
 
 	// Set initial scene
-	this->StartScene(Scene_Default);
+	this->StartScene(SceneName::Scene_Level1);
 
 	// Init succeeded
 	return true;

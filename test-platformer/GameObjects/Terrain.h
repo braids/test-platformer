@@ -9,18 +9,19 @@
 
 class Terrain : public GameObject {
 public:
-	typedef std::vector<Terrain*> Vec;
-	typedef BSP_Tree<Terrain>::Node Node;
-	typedef std::vector<Terrain::Node*> NodeVec;
+	typedef std::vector<Terrain*>	Vec;
+	typedef typename BSP_Tree<Terrain*>		Tree;
+	typedef Tree::Node				TreeNode;
+	typedef std::vector<TreeNode*>	TreeNodeVec;
 
-	Line CollisionLine;
+	Line* CollisionLine;
 
 	Terrain();
 	Terrain(double x1, double y1, double x2, double y2);
 
 	void Update(Uint32 ticks);
 	SDL_Rect* GetCollisionRect();
-	NodeVec* GetCollisionNodes();
+	TreeNodeVec* GetCollisionNodes();
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "Physics\BSP_Tree.h"
 
+/*
 template <typename Data>
 BSP_Tree<Data>::BSP_Tree() {
 	this->partition = nullptr;
@@ -7,6 +8,7 @@ BSP_Tree<Data>::BSP_Tree() {
 	this->front = nullptr;
 	this->back = nullptr;
 }
+*/
 
 template <typename Data>
 void BSP_Tree<Data>::AddItems(NodeVec _list) {
@@ -18,8 +20,9 @@ void BSP_Tree<Data>::FindItems(DataVec* items, SDL_Rect* _area) {
 	// If no subtrees, add current item list
 	if (!this->front && !this->back) {
 		// Add all node data to the data list
-		items.insert(items.end(), this->list.begin(), this->list.end());
-		
+		for (Node* node : this->list)
+			items->push_back(node->second);
+
 		// Bail outta here, we're done
 		return;
 	}
@@ -41,7 +44,7 @@ void BSP_Tree<Data>::FindItems(DataVec* items, SDL_Rect* _area) {
 }
 
 template<typename Data>
-void BSP_Tree<Data>::BuildTree(BSP_Tree* _tree, NodeVec _list, SDL_Rect* _area) {
+void BSP_Tree<Data>::BuildTree(BSP_Tree<Data>* _tree, NodeVec _list, SDL_Rect* _area) {
 	// Set partition
 	_tree->partition = _area;
 
@@ -67,14 +70,14 @@ void BSP_Tree<Data>::BuildTree(BSP_Tree* _tree, NodeVec _list, SDL_Rect* _area) 
 
 	// Sort items into partition lists
 	for (Node* item : _list) {
-		if (SDL_HasIntersection(item.first, frontRect))
+		if (SDL_HasIntersection(item->first, frontRect))
 			frontList.push_back(item);
-		if (SDL_HasIntersection(item.first, backRect))
+		if (SDL_HasIntersection(item->first, backRect))
 			backList.push_back(item);
 	}
 
 	// If both lists match or one item left, don't create subtrees. This means we have a small enough space that subdivisions won't help.
-	if (frontList == backList || _tree->list->size() <= BSP_Tree::MIN_TREE_ITEMS) {
+	if (frontList == backList || _tree->list.size() <= BSP_Tree::MIN_TREE_ITEMS) {
 		_tree->AddItems(_list);
 		delete frontRect;
 		delete backRect;
@@ -97,7 +100,7 @@ void BSP_Tree<Data>::BuildTree(BSP_Tree* _tree, NodeVec _list, SDL_Rect* _area) 
 // just yet, the code can be appropriated later for neat BSP tree funcs.
 /*
 template <typename T>
-void BSP_Tree<T>::BuildTree(BSP_Tree* _tree, NodeVec _list, SDL_Rect* _partition, int branchLevel) {
+void BSP_Tree<T>::BuildTree(BSP_Tree* _tree, TreeNodeVec _list, SDL_Rect* _partition, int branchLevel) {
 	// Set partition
 	_tree->partition = _partition;
 
@@ -110,8 +113,8 @@ void BSP_Tree<T>::BuildTree(BSP_Tree* _tree, NodeVec _list, SDL_Rect* _partition
 
 	SDL_Rect* frontRect;
 	SDL_Rect* backRect;
-	NodeVec frontList;
-	NodeVec backList;
+	TreeNodeVec frontList;
+	TreeNodeVec backList;
 
 
 	// Set front/back rects

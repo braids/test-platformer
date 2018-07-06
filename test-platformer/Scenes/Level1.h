@@ -17,8 +17,8 @@ public:
 	Player* player;
 
 	Terrain::Vec		TerrainList;
-	Terrain::NodeVec	TerrainNodes;
-	BSP_Tree<Terrain>*	TerrainTree;
+	Terrain::TreeNodeVec	TerrainNodes;
+	Terrain::Tree*	TerrainTree;
 
 	SDL_Rect* Area;
 

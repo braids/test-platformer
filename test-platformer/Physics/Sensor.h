@@ -9,7 +9,7 @@
 template<class T> class Sensor {
 public:
 	typedef std::vector<Sensor<T>*> Vec;
-	typedef Vec::iterator VecIter;
+	typename Vec::iterator VecIter;
 
 	T* parent;
 
@@ -21,7 +21,7 @@ public:
 template<class T> class LineSensor : public Sensor<T> {
 public:
 	typedef std::vector<LineSensor<T>*> Vec;
-	typedef Vec::iterator VecIter;
+	typename Vec::iterator VecIter;
 
 	Line* line;
 
@@ -43,7 +43,7 @@ public:
 template<class T> class RectSensor : public Sensor<T> {
 public:
 	typedef std::vector<RectSensor<T>*> Vec;
-	typedef Vec::iterator VecIter;
+	typename Vec::iterator VecIter;
 
 	SDL_Rect* rect;
 

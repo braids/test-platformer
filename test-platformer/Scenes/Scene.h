@@ -10,6 +10,7 @@
 
 // Forward dec the SceneManager
 class SceneManager;
+class Graphics;
 
 // Class forward decs
 class Scene;
@@ -25,6 +26,7 @@ protected:
 	SceneName		mSceneName; // Current scene name (pulled from enum)
 	bool			mActive;	// Scene is active or inactive
 	SceneManager*	mManager;	// Parent scene manager pointer
+	Graphics*		mGraphics;	// Graphics instance pointer
 	Camera			mCamera;
 	ImageData::Vec	mImages;
 	GameObject::Vec	mGameObjects;

@@ -13,6 +13,7 @@ Scene::~Scene() {
 
 void Scene::Init(SceneManager * manager) {
 	this->SetManager(manager);
+	this->mGraphics = manager->GetGraphics();
 }
 
 ImageData* Scene::AddImage(Assets::Image* _image, int _x, int _y) {

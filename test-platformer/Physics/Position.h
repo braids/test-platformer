@@ -12,7 +12,7 @@ public:
 
 	Position();
 	
-	static double XYCrossProduct(Position * pos1, Position * pos2);
+	static double XYCrossProduct(Position pos1, Position pos2);
 };
 
 #endif

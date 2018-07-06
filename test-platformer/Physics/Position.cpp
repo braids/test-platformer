@@ -9,6 +9,6 @@ Position::Position() {
 	this->ang = 0.0;
 }
 
-double Position::XYCrossProduct(Position* pos1, Position* pos2) {
-	return (pos1->x * pos2->y) - (pos1->y * pos2->x);
+double Position::XYCrossProduct(Position pos1, Position pos2) {
+	return (pos1.x * pos2.y) - (pos1.y * pos2.x);
 }
